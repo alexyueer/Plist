@@ -13,6 +13,7 @@ import java.util.Set;
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageOutputStream;
 
+import lhr.content.Content;
 import lhr.content.Frame;
 import lhr.content.Frames;
 
@@ -25,7 +26,7 @@ public class ExtractMs {
 		Element dict = null;//指向每一个dict元素
 		
 		SAXBuilder builder = new SAXBuilder();
-		Document doc = builder.build(new File("doc/2.plist"));
+		Document doc = builder.build(new File(Content.plistPath));
 		Element root = doc.getRootElement();//获得根节点plist
 		//System.out.println(root.getName());
 		
@@ -55,9 +56,8 @@ public class ExtractMs {
 		System.out.println(frs.frame.get(1).startY);
 		System.out.println(frs.frame.get(1).width);
 		System.out.println(frs.frame.get(1).height);*/
-		String srcImgFile ="doc/2.png";
 		Map<String,BufferedImage> sub_imgs = new HashMap<String, BufferedImage>();//map对应的key为图片名，value为子图片
-		cutPic(sub_imgs,frs,srcImgFile);//从合成图片分离后的图片的名字存在sub_imgs的key中，图片存在sub_imgs的value中。
+		cutPic(sub_imgs,frs,Content.pngPath);//从合成图片分离后的图片的名字存在sub_imgs的key中，图片存在sub_imgs的value中。
 		storeSubImg(sub_imgs);
 	}
 	/**
@@ -163,7 +163,7 @@ public class ExtractMs {
 		while(it.hasNext()){
 			String key = it.next();
 			BufferedImage value = sub_imgs.get(key);
-			ImageIO.write(value, "png", new File("f:"+key));
+			ImageIO.write(value, "png", new File(Content.savePath+key));
 		}
 	}
 }
